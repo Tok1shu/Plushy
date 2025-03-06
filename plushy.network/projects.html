@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Plushy Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+            background: linear-gradient(-45deg, 
+                #ffd6e8,
+                #f3e3ff,
+                #ffe3f1,
+                #e8e3ff
+            );
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hover-scale {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge:hover {
+            transform: translateY(-2px);
+        }
+
+        .status-active {
+            background-color: #10B981;
+            color: white;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .status-development {
+            background-color: #F59E0B;
+            color: white;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+        }
+
+        .status-planning {
+            background-color: #6B7280;
+            color: white;
+            box-shadow: 0 2px 10px rgba(107, 114, 128, 0.2);
+        }
+
+        .filter-button {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .filter-button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #EC4899;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .filter-button:hover::after {
+            width: 50%;
+        }
+
+        .filter-button.active {
+            background: rgba(236, 72, 153, 0.1);
+            border-color: rgba(236, 72, 153, 0.3);
+            color: #EC4899;
+            transform: translateY(-2px);
+        }
+
+        .filter-button.active::after {
+            width: 70%;
+        }
+
+        .project-card {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card.hidden {
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+        }
+
+        .search-input {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+            transform: scale(1.02);
+        }
+
+        .emoji-container {
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .emoji-container:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .tag-pill:hover {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #EC4899;
+            transform: translateY(-2px);
+        }
+
+        .link-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #EC4899;
+            transition: width 0.3s ease;
+        }
+
+        .link-item:hover::after {
+            width: 100%;
+        }
+
+        /* Loader animation */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ffd6e8, #f3e3ff, #ffe3f1, #e8e3ff);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top-color: #EC4899;
+            border-bottom-color: #8B5CF6;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        /* Page reveal animation */
+        .reveal-content {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body class="animate-gradient min-h-screen font-sans">
+    <!-- Loader -->
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation (unchanged) -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <!-- ... existing navigation ... -->
+    </nav>
+
+    <!-- Projects Section -->
+    <section class="pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-4xl mx-auto mb-16 reveal-content" id="projectsHeader">
+                <h1 class="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+                    Our Projects
+                </h1>
+                <p class="text-xl text-gray-700 mb-8">
+                    Explore our experimental projects and innovations
+                </p>
+
+                <!-- Search Input -->
+                <div class="max-w-md mx-auto mb-12 reveal-content" id="searchContainer">
+                    <input type="text" 
+                           id="searchInput" 
+                           placeholder="Search projects..."
+                           class="w-full px-6 py-3 rounded-full glass search-input focus:outline-none text-gray-700">
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-3 mb-12 reveal-content" id="filterButtons">
+                    <!-- Filters will be added here -->
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-content" id="projectsGrid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (unchanged) -->
+    <footer class="glass mt-20">
+        <!-- ... existing footer ... -->
+    </footer>
+
+    <script>
+        let activeProjects = [];
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        // Loader animation
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Show loader
+            const loader = document.getElementById('loader');
+            
+            // Load and render projects 
+            loadProjects().then(() => {
+                // Hide loader with animation after projects load
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                    
+                    // Reveal content with staggered animation
+                    gsap.to('#projectsHeader', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: 'power3.out'
+                    });
+                    
+                    gsap.to('#searchContainer', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        delay: 0.2,
+                        ease: 'power3.out'
+                    });
+                    
+                    gsap.to('#filterButtons', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        delay: 0.4,
+                        ease: 'power3.out'
+                    });
+                    
+                    gsap.to('#projectsGrid', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        delay: 0.6,
+                        ease: 'power3.out',
+                        onComplete: () => {
+                            console.info("Meow :3")
+                        }
+                    });
+                    
+                    // Remove loader from DOM after animation completes
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 800);
+                }, 1200); // Minimum loading time for effect
+            });
+        });
+
+        // Load and render projects
+        async function loadProjects() {
+            try {
+                const response = await fetch('/projects.json');
+                const data = await response.json();
+                activeProjects = data.projects;
+                setupFilters(data.projects);
+                renderProjects(data.projects);
+                return data;
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                // Fallback to show error message
+                document.getElementById('projectsGrid').innerHTML = `
+                    <div class="col-span-3 text-center">
+                        <p class="text-gray-700">Unable to load projects. Please try again later.</p>
+                    </div>
+                `;
+                return { projects: [] };
+            }
+        }
+
+        function setupFilters(projects) {
+            const tags = new Set(['all']);
+            projects.forEach(project => {
+                project.tags.forEach(tag => tags.add(tag));
+            });
+
+            const filterButtons = document.getElementById('filterButtons');
+            let delayOffset = 0;
+            
+            tags.forEach(tag => {
+                const button = document.createElement('button');
+                button.className = `filter-button px-4 py-2 rounded-full glass hover:bg-white/80 transition-colors ${tag === 'all' ? 'active' : ''}`;
+                button.textContent = tag.charAt(0).toUpperCase() + tag.slice(1);
+                button.dataset.filter = tag;
+                button.style.opacity = 0;
+                button.style.transform = 'translateY(20px)';
+                
+                button.addEventListener('click', () => {
+                    if (activeFilter !== tag) {
+                        document.querySelectorAll('.filter-button').forEach(btn => {
+                            if (btn !== button && btn.classList.contains('active')) {
+                                gsap.to(btn, { scale: 1, y: 0, ease: 'power3.out', duration: 0.4 });
+                            }
+                        });
+                        
+                        gsap.to(button, { scale: 1.05, y: -2, ease: 'back.out(1.7)', duration: 0.4 });
+                        
+                        activeFilter = tag;
+                        updateFilterButtons();
+                        filterAndRenderProjects();
+                    }
+                });
+
+                filterButtons.appendChild(button);
+                
+                // Animate filter buttons in
+                gsap.to(button, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    delay: 0.1 + (delayOffset * 0.08),
+                    ease: 'power3.out'
+                });
+                
+                delayOffset++;
+            });
+        }
+
+        function updateFilterButtons() {
+            document.querySelectorAll('.filter-button').forEach(button => {
+                if (button.dataset.filter === activeFilter) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        function filterAndRenderProjects() {
+            let filteredProjects = activeProjects;
+
+            // Apply tag filter
+            if (activeFilter !== 'all') {
+                filteredProjects = filteredProjects.filter(project => 
+                    project.tags.includes(activeFilter)
+                );
+            }
+
+            // Apply search filter
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredProjects = filteredProjects.filter(project =>
+                    project.name.toLowerCase().includes(query) ||
+                    project.description.toLowerCase().includes(query) ||
+                    project.tags.some(tag => tag.toLowerCase().includes(query))
+                );
+            }
+
+            renderProjects(filteredProjects);
+        }
+
+        function renderProjects(projects) {
+            const grid = document.getElementById('projectsGrid');
+            const existingCards = Array.from(grid.children);
+            
+            // Animate out cards that will be removed
+            existingCards.forEach(card => {
+                if (!projects.some(p => p.name === card.dataset.projectName)) {
+                    gsap.to(card, {
+                        opacity: 0,
+                        scale: 0.9,
+                        y: 20,
+                        duration: 0.4,
+                        ease: 'power3.inOut',
+                        onComplete: () => card.remove()
+                    });
+                }
+            });
+
+            projects.forEach((project, index) => {
+                let card = existingCards.find(c => c.dataset.projectName === project.name);
+                
+                if (!card) {
+                    card = document.createElement('div');
+                    card.className = 'project-card glass rounded-3xl p-8 hover-scale';
+                    card.dataset.projectName = project.name;
+                    
+                    const bgColorClass = project.bgcolor === 'pink' ? 'bg-pink-100/50' : 'bg-purple-100/50';
+                    const shadowColor = project.bgcolor === 'pink' ? 'rgba(236, 72, 153, 0.2)' : 'rgba(139, 92, 246, 0.2)';
+                    
+                    card.innerHTML = `
+                        <div class="flex items-start space-x-6 mb-8">
+                            <div class="${bgColorClass} rounded-2xl p-6 emoji-container" style="box-shadow: 0 5px 15px ${shadowColor}">
+                                ${project.emoji}
+                            </div>
+                            <div class="flex-1 pt-2">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-3">${project.name}</h3>
+                                <span class="status-badge status-${project.status}">
+                                    ${project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-8 text-lg">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            ${project.tags.map(tag => `
+                                <span class="tag-pill px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-sm">
+                                    ${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div class="flex flex-wrap gap-6">
+                            ${Object.entries(project.links).map(([platform, url]) => `
+                                <a href="${url}" 
+                                   target="_blank" 
+                                   class="link-item flex items-center space-x-2 text-gray-600 hover:text-pink-500 transition-colors">
+                                    <span>${platform.charAt(0).toUpperCase() + platform.slice(1)}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    `;
+
+                    card.style.opacity = 0;
+                    card.style.transform = 'scale(0.9) translateY(30px)';
+                    grid.appendChild(card);
+
+                    // Animate in new card with staggered delay
+                    gsap.to(card, {
+                        opacity: 1,
+                        scale: 1,
+                        y: 0,
+                        duration: 0.6,
+                        delay: index * 0.1,
+                        ease: 'back.out(1.3)',
+                        onComplete: () => {
+                            // Animate emoji with a subtle bounce
+                            const emoji = card.querySelector('.emoji-container');
+                            gsap.from(emoji, {
+                                scale: 0.9,
+                                duration: 0.5,
+                                ease: 'elastic.out(1, 0.3)',
+                                delay: 0.1
+                            });
+                            
+                            // Animate tags with staggered effect
+                            const tags = card.querySelectorAll('.tag-pill');
+                            gsap.from(tags, {
+                                opacity: 0,
+                                y: 10,
+                                duration: 0.4,
+                                stagger: 0.05,
+                                ease: 'power3.out',
+                                delay: 0.2
+                            });
+                            
+                            // Animate links with staggered effect
+                            const links = card.querySelectorAll('.link-item');
+                            gsap.from(links, {
+                                opacity: 0,
+                                x: -10,
+                                duration: 0.4,
+                                stagger: 0.1,
+                                ease: 'power3.out',
+                                delay: 0.3
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // If no projects match, show message
+            if (projects.length === 0) {
+                const noProjectsMessage = document.createElement('div');
+                noProjectsMessage.className = 'col-span-3 text-center p-12 glass rounded-3xl';
+                noProjectsMessage.innerHTML = `
+                    <p class="text-xl text-gray-700 mb-4">No projects found matching your criteria</p>
+                    <button id="resetFilters" class="px-6 py-3 bg-pink-100 text-pink-600 rounded-full hover:bg-pink-200 transition-colors">
+                        Reset filters
+                    </button>
+                `;
+                
+                grid.innerHTML = '';
+                grid.appendChild(noProjectsMessage);
+                
+                document.getElementById('resetFilters').addEventListener('click', () => {
+                    document.getElementById('searchInput').value = '';
+                    searchQuery = '';
+                    activeFilter = 'all';
+                    updateFilterButtons();
+                    filterAndRenderProjects();
+                });
+                
+                gsap.from(noProjectsMessage, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    ease: 'power3.out'
+                });
+            }
+        }
+
+        // Setup search functionality with animation
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchBar = e.target;
+            searchQuery = searchBar.value;
+            
+            // Add subtle animation on input
+            if (searchBar.value.length > 0) {
+                gsap.to(searchBar, {
+                    scale: 1.02,
+                    boxShadow: '0 0 0 3px rgba(236, 72, 153, 0.2)',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            } else {
+                gsap.to(searchBar, {
+                    scale: 1,
+                    boxShadow: 'none',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            }
+            
+            filterAndRenderProjects();
+        });
+    </script>
+</body>
+</html>

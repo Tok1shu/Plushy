@@ -1,0 +1,81 @@
+{
+    "projects": [
+        {
+            "name": "Telegram Bot Manager",
+            "emoji": "🤖",
+            "bgcolor": "blue",
+            "description": "A bot designed for managing subdomain redirects, allowing users to create and manage redirects through Telegram.",
+            "status": "active",
+            "tags": ["Telegram", "API"],
+            "links": {
+                "github": "https://github.com/Tok1shu/telegram-bot-manager"
+            }
+        },
+        {
+            "name": "CryptCloud",
+            "emoji": "☁️",
+            "bgcolor": "gray",
+            "description": "A project aimed at creating a secure cloud storage solution with encryption, utilizing C# for frontend operations and Python for backend API management.",
+            "status": "development",
+            "tags": ["C#", "Python"],
+            "links": {
+                "github": "https://github.com/Tok1shu/CryptCloud"
+            }
+        },
+        {
+            "name": "EasyDonate Payment Script",
+            "emoji": "💰",
+            "bgcolor": "green",
+            "description": "A PHP script that facilitates the creation and redirection to EasyDonate products, streamlining the donation process for users.",
+            "status": "active",
+            "tags": ["PHP"],
+            "links": {
+                "github": "https://github.com/Tok1shu/easydonate-ru-create-pay"
+            }
+        },
+        {
+            "name": "ShameSkin",
+            "emoji": "🎭",
+            "bgcolor": "red",
+            "description": "A Minecraft plugin that disciplines rule-breakers by temporarily changing their skins, enhancing server moderation.",
+            "status": "active",
+            "tags": ["Minecraft", "Plugin", "Moderation"],
+            "links": {
+                "github": "https://github.com/Tok1shu/ShameSkin"
+            }
+        },
+        {
+            "name": "YTM Liked Songs to Playlist",
+            "emoji": "🎶",
+            "bgcolor": "purple",
+            "description": "A Python script that transfers your liked songs from YouTube Music into a playlist for better organization.",
+            "status": "active",
+            "tags": ["Python"],
+            "links": {
+                "github": "https://github.com/Tok1shu/YTMLikedSongsToPlaylist"
+            }
+        },
+        {
+            "name": "MultiSignBook",
+            "emoji": "📖",
+            "bgcolor": "orange",
+            "description": "A Bukkit/Spigot plugin designed to facilitate in-game contracts on Minecraft servers, allowing players to create and secure written agreements.",
+            "status": "active",
+            "tags": ["Minecraft", "Plugin"],
+            "links": {
+                "github": "https://github.com/Tok1shu/MultiSignBook"
+            }
+        },
+        {
+            "name": "BlockInfoAPI",
+            "emoji": "🔍",
+            "bgcolor": "teal",
+            "description": "A Lua API for ComputerCraft that provides detailed block information using a command computer, enabling clients to request block data remotely.",
+            "status": "active",
+            "tags": ["Lua", "ComputerCraft", "API"],
+            "links": {
+                "github": "https://github.com/CC-OC-Dev/BlockInfoAPI"
+            }
+        }
+    ]
+}

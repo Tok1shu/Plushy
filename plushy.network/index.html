@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plushy Network | Tokishu Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+            background: linear-gradient(-45deg, 
+                #ffd6e8,  /* Очень светлый розовый */
+                #f3e3ff,  /* Очень светлый фиолетовый */
+                #ffe3f1,  /* Другой оттенок светлого розового */
+                #e8e3ff   /* Другой оттенок светлого фиолетового */
+            );
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        .marquee-container {
+            mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+            );
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+        .marquee-item {
+            flex-shrink: 0;
+            font-size: 3.5rem;
+            padding: 0 0.5rem;
+        }
+    </style>
+</head>
+<body class="animate-gradient min-h-screen font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+                        Plushy Network
+                    </span>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#about" class="text-gray-700 hover:text-pink-500 transition-colors cursor-not-allowed">About</a>
+                        <a href="#features" class="text-gray-700 hover:text-pink-500 transition-colors cursor-not-allowed">Features</a>
+                        <a href="projects" class="text-gray-700 hover:text-pink-500 transition-colors">Projects</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Part of Tokishu Ecosystem</span>
+                    <div class="w-px h-6 bg-gray-300"></div>
+                    <button class="px-4 py-2 rounded-full glass hover:bg-white/80 transition-colors text-gray-700 cursor-not-allowed">
+                        Connect
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+                    Innovation Playground
+                </h1>
+                <p class="text-xl text-gray-700 mb-12">
+                    Where experimental ideas transform into groundbreaking solutions
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button class="px-8 py-3 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-colors" onclick="window.location.href = 'projects'">
+                        Explore Projects
+                    </button>
+                    <button class="px-8 py-3 rounded-full glass hover:bg-white/80 transition-colors text-gray-700 cursor-not-allowed">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Banner -->
+    <div class="py-12 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-track" id="marqueeTrack">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <section class="py-20" id="features">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500">
+                    Experimental Platform
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass rounded-3xl p-8 hover-scale">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-pink-100 rounded-2xl p-4">
+                                🧪
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">API Prototyping</h3>
+                                <p class="text-gray-600">Development and testing of experimental APIs for future projects</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass rounded-3xl p-8 hover-scale">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-purple-100 rounded-2xl p-4">
+                                🚀
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Innovation Lab</h3>
+                                <p class="text-gray-600">Safe environment for testing cutting-edge solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass rounded-3xl p-8 hover-scale">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-pink-100 rounded-2xl p-4">
+                                🎮
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Pet Projects</h3>
+                                <p class="text-gray-600">Small-scale projects exploring new technologies</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass rounded-3xl p-8 hover-scale">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-purple-100 rounded-2xl p-4">
+                                🔮
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Future Tech</h3>
+                                <p class="text-gray-600">Experimental platform for Tokishu's next big ideas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass mt-20">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-8 md:mb-0">
+                    <div class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-500 mb-2">
+                        Plushy Network
+                    </div>
+                    <p class="text-gray-600">A Tokishu Project</p>
+                </div>
+                <div class="flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-pink-500 transition-colors">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Improved Marquee Animation
+        const emojis = ['🐱', '🐰', '🦊', '🐼', '🦄', '🐘', '🦋', '🐳', '✨', '🌸'];
+        const track = document.getElementById('marqueeTrack');
+        
+        // Create enough copies for smooth infinite scroll
+        function createMarqueeContent() {
+            // Create more copies to ensure smooth looping
+            const totalSets = 4;
+            for (let i = 0; i < totalSets; i++) {
+                emojis.forEach(emoji => {
+                    const div = document.createElement('div');
+                    div.className = 'marquee-item';
+                    div.textContent = emoji;
+                    track.appendChild(div);
+                });
+            }
+
+            // Clone all elements for seamless looping
+            const originalChildren = Array.from(track.children);
+            originalChildren.forEach(child => {
+                const clone = child.cloneNode(true);
+                track.appendChild(clone);
+            });
+        }
+
+        createMarqueeContent();
+
+        // GSAP Infinite Scroll Animation
+        function createInfiniteScroll() {
+            const duration = 30;
+            const trackWidth = track.offsetWidth / 2;
+            
+            gsap.to(track, {
+                x: -trackWidth,
+                duration: duration,
+                ease: "none",
+                repeat: -1,
+                onRepeat: () => {
+                    gsap.set(track, { x: 0 });
+                }
+            });
+        }
+
+        // Initialize animation after content is loaded
+        window.addEventListener('load', createInfiniteScroll);
+
+        // Hover animations for cards
+        gsap.utils.toArray('.hover-scale').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
